@@ -1,0 +1,21 @@
+@startuml
+!theme aws-orange
+skinparam sequenceMessageAlign center
+
+boundary    "前端"      as UI
+
+control     “文件存储\nweb 服务”         as ossWeb
+control     “数据\nweb 服务”         as dataWeb
+control     "离线转译 web 服务"       as transcribeWeb
+control     “AI 语音转文字\nweb 服务” as ai
+
+UI -> transcribeWeb: 发送离线转译请求
+ossWeb -> transcribeWeb: 下载语音文件
+transcribeWeb -> ai: 发送转译请求
+
+ai -> ai   : 转译
+ai -> transcribeWeb: 返回转译文本
+transcribeWeb -> ossWeb: 上传转译文本
+transcribeWeb -> dataWeb: 标注语音已完成转译
+
+@enduml
