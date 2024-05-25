@@ -1,0 +1,11 @@
+# Copyright 2024 Paion Data. All rights reserved.
+---
+annotations:
+  screwdriver.cd/chainPR: true
+jobs:
+  tests:
+    requires: [~pr, ~commit]
+    image: buildpack-deps:22.04-scm
+    steps:
+      - install-jdk-with-maven: sd-cmd exec paion-data/install-jdk-with-maven-ubuntu@latest
+      - test: mvn clean verify
