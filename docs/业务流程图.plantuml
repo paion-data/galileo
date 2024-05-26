@@ -15,7 +15,6 @@ transcribeWeb -> ai: 发送转译请求
 
 ai -> ai   : 转译
 ai -> transcribeWeb: 返回转译文本
-transcribeWeb -> ossWeb: 上传转译文本
-transcribeWeb -> dataWeb: 标注语音已完成转译
+transcribeWeb -> dataWeb: 上传文本并标注语音已完成转译
 
 @enduml
