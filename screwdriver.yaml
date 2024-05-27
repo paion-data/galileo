@@ -9,3 +9,27 @@ jobs:
     steps:
       - install-jdk-with-maven: sd-cmd exec paion-data/install-jdk-with-maven-ubuntu@latest
       - test: mvn clean verify
+
+  test-ai-docker:
+    requires: [~pr, ~commit]
+    image: buildpack-deps:22.04-scm
+    steps:
+      - test-ai-app: |
+          cd ai
+          pip3 install flask
+          pip3 install requests
+          pip3 install flask-cors
+          pip3 install -U setuptools
+          pip3 install vosk
+          pip3 install flasgger==0.9.7b2
+          python3 -m unittest
+      - docker-build-test: |
+          cd ai
+          docker build -t paiondata/asr-test:latest .
+
+  publish-ai-docker:
+    requires: [commit, test-ai-docker]
+    image: buildpack-deps:22.04-scm
+    steps:
+      - docker image tag paiondata/asr-test hub.paion-data.dev/asr-test
+      - docker push hub.paion-data.dev/asr-test
