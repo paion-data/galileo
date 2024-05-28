@@ -12,7 +12,7 @@
     <artifactId>transcription-ws</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Transcription-ws</name>
-    <description>Transcription-ws</description>
+    <description>Offline transcription request forwarding web service</description>
     <properties>
         <java.version>17</java.version>
         <version.groovy>4.0.6</version.groovy>
