@@ -13,25 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.paiondata.transcriptionws.controller;
+package com.paiondata.transcriptionws.domain.entity;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.io.Serializable;
 
 /**
- * TestController.
+ * FileUploadRequest.
  */
-@RestController
-@RequestMapping
-public class HelloController {
+public class FileUploadRequest implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    private String caseId;
 
     /**
-     * sayHello.
-     * @return String.
+     * Get caseId.
+     * @return caseId.
      */
-    @GetMapping("/hello")
-    public String sayHello() {
-        return "Hello World!";
+    public String getCaseId() {
+        return caseId;
+    }
+
+    /**
+     * Set caseId.
+     * @param caseId caseId.
+     */
+    public void setCaseId(final String caseId) {
+        this.caseId = caseId;
     }
 }

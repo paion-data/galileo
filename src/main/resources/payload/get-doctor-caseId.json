@@ -1,0 +1,6 @@
+{
+  "query": "query GetDoctorByCaseId($caseId: String!)\n{\n  doctor {\n    edges {\n      node {\n        id\n        cases(filter: $caseId) {\n          edges {\n            node {\n              id\n              audio {\n                edges {\n                  node {\n                    id\n                    fileId\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+  "variables": {
+    "caseId" : "id=='%s'"
+  }
+}
