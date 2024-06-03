@@ -18,7 +18,7 @@
 
 #### IntelliJ 配置自动代码风格
 
-目前，我们已经提炼出与jersey-webservice-template代码相关的最重要代码风格约定，并将其作为IntelliJ设置。如果使用IntelliJ作为IDE，我们可以通过导入仓库根目录中的[jersey-webservice-template-Project-intellij-code-style.xml][style config]文件来导入这些代码样式设置。项目设置将作为名为“jersey-webservice-template-Project”的新方案出现在IDE的**Editor** -> **Code Style**部分下。
+目前，我们制定并完善了本项目的代码风格配置，并将其作为IntelliJ设置。如果使用IntelliJ作为IDE，我们可以通过导入仓库根目录中的[jersey-webservice-template-Project-intellij-code-style.xml][style config]文件来导入这些代码样式设置。项目设置将作为名为“jersey-webservice-template-Project”的新方案出现在IDE的**Editor** -> **Code Style**部分下。
 
 请同时启用“移除未使用的导入”功能，通过**Editor** -> **General** -> **Auto Import** -> **Optimize Imports on the Fly**，它将自动移除未使用的导入。
 
