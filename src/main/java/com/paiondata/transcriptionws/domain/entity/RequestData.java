@@ -15,15 +15,37 @@
  */
 package com.paiondata.transcriptionws.domain.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
 
 /**
- * FileUploadRequest.
+ * RequestData.
  */
-public class FileUploadRequest implements Serializable {
+@Schema(description = "request data")
+public class RequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Schema(description = "doctor's ID")
+    private String doctorId;
+    @Schema(description = "case's ID")
     private String caseId;
+
+    /**
+     * Get doctorId.
+     * @return doctorId.
+     */
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    /**
+     * Set doctorId.
+     * @param doctorId doctorId.
+     */
+    public void setDoctorId(final String doctorId) {
+        this.doctorId = doctorId;
+    }
 
     /**
      * Get caseId.

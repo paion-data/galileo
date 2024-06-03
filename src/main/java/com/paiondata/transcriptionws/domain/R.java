@@ -15,12 +15,15 @@
  */
 package com.paiondata.transcriptionws.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.io.Serializable;
 
 /**
  * the response data.
  * @param <T> the type of the data.
  */
+@Schema(description = "the response data")
 public class R<T> implements Serializable {
     /**
      * the success code.
@@ -35,10 +38,11 @@ public class R<T> implements Serializable {
     private static final String SUCCESS_MESSAGE = "操作成功";
     private static final String FAIL_MESSAGE = "操作失败";
 
+    @Schema(description = "the status code")
     private int code;
-
+    @Schema(description = "the message")
     private String msg;
-
+    @Schema(description = "the response data")
     private T data;
 
     /**

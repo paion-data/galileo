@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class MinervaServiceImpl implements MinervaService {
 
-    private static String url = "http://localhost:8080/v1/file/download?fileId=";
+    private static final String BASE_URL = "http://localhost:8080/v1/file/download?fileId=";
     private static final OkHttpClient CLIENT = new OkHttpClient.Builder()
             .callTimeout(10, TimeUnit.SECONDS)
             .build();
@@ -46,9 +46,9 @@ public class MinervaServiceImpl implements MinervaService {
      */
     @Override
     public byte[] downloadFile(final String fileId) throws IOException {
-        url = url + fileId;
+        final String completeUrl = BASE_URL + fileId;
         final Request request = new Request.Builder()
-                .url(url)
+                .url(completeUrl)
                 .addHeader("Accept", "*/*")
                 .build();
 

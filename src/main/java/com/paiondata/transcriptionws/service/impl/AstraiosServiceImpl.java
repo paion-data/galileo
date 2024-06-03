@@ -65,8 +65,8 @@ public class AstraiosServiceImpl implements AstraiosService {
      * @throws IOException IOException.
      */
     @Override
-    public ResponseData.Root getInformationByCaseId(final @NotNull String caseId) throws IOException {
-        final Request request = buildPostRequest(URL, GET_DOCTOR_CASE_ID_PAYLOAD_PATH, caseId);
+    public ResponseData.Root getInformation(final String doctorId, final String caseId) throws IOException {
+        final Request request = buildPostRequest(URL, GET_DOCTOR_CASE_ID_PAYLOAD_PATH, caseId, doctorId);
         try (Response response = CLIENT.newCall(request).execute()) {
             if (!response.isSuccessful()) {
                 throw new IOException("Unexpected code " + response);
@@ -84,9 +84,9 @@ public class AstraiosServiceImpl implements AstraiosService {
      * @throws IOException IOException.
      */
     @Override
-    public boolean uploadText(final @NotNull String doctorId,
-                              final @NotNull String caseId,
-                              final @NotNull String transcribedText) throws IOException {
+    public boolean uploadText(final String doctorId,
+                              final String caseId,
+                              final String transcribedText) throws IOException {
         final Request request = buildPostRequest(URL, UPLOAD_TEXT_PAYLOAD_PATH, doctorId, caseId, transcribedText);
         try (Response response = CLIENT.newCall(request).execute()) {
             return response.isSuccessful();
@@ -100,9 +100,9 @@ public class AstraiosServiceImpl implements AstraiosService {
      * @param args args.
      * @return Request.
      */
-    private Request buildPostRequest(final @NotNull String url,
-                                     final @NotNull String payloadTemplate,
-                                     final @NotNull Object... args) {
+    private Request buildPostRequest(final String url,
+                                     final String payloadTemplate,
+                                     final Object... args) {
         final String requestBody = String.format(payload(payloadTemplate), args);
         final RequestBody body = RequestBody.create(requestBody, JSON_MEDIA_TYPE);
         return new Request.Builder()

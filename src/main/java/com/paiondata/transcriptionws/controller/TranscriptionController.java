@@ -16,7 +16,7 @@
 package com.paiondata.transcriptionws.controller;
 
 import com.paiondata.transcriptionws.domain.R;
-import com.paiondata.transcriptionws.domain.entity.FileUploadRequest;
+import com.paiondata.transcriptionws.domain.entity.RequestData;
 import com.paiondata.transcriptionws.domain.entity.ResponseData;
 import com.paiondata.transcriptionws.service.AITranscriptionService;
 import com.paiondata.transcriptionws.service.AstraiosService;
@@ -28,6 +28,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.io.IOException;
 
 /**
@@ -35,6 +38,7 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/v1")
+@Tag(name = "Transcription Controller", description = "Transcription Controller")
 public class TranscriptionController {
 
     @Autowired
@@ -48,20 +52,21 @@ public class TranscriptionController {
 
     /**
      * Transcribe the audio file and upload the transcription text to Astraios.
-     * @param fileUploadRequest the request body.
+     * @param requestData the request body.
      * @return the response.
      */
     @PostMapping("/transcribe")
-    public R<String> getTranscription(@RequestBody final FileUploadRequest fileUploadRequest) {
-        final String caseId = fileUploadRequest.getCaseId();
+    @Operation(summary = "Transcribe the audio file and upload the transcription text to Astraios")
+    public R<String> getTranscription(@RequestBody final RequestData requestData) {
+        final String caseId = requestData.getCaseId();
+        final String doctorId = requestData.getDoctorId();
 
         try {
-            final ResponseData.Root responseData = astraiosService.getInformationByCaseId(caseId);
+            final ResponseData.Root responseData = astraiosService.getInformation(doctorId, caseId);
             if (responseData == null || responseData.getData() == null) {
                 return R.fail("Invalid caseId or data not found");
             }
 
-            final String doctorId = extractDoctorId(responseData);
             final String fileId = extractFileId(responseData);
 
             final byte[] audioFile = minervaService.downloadFile(fileId);
@@ -83,14 +88,5 @@ public class TranscriptionController {
     private String extractFileId(final ResponseData.Root responseData) {
         return responseData.getData().getDoctor().getEdges().get(0).getNode().getCases().get().getEdges()
                 .get(0).getNode().getAudio().get().getEdges().get(0).getNode().getFileId();
-    }
-
-    /**
-     * Extract the doctorId from the response data.
-     * @param responseData the response data.
-     * @return String.
-     */
-    private String extractDoctorId(final ResponseData.Root responseData) {
-        return responseData.getData().getDoctor().getEdges().get(0).getNode().getId();
     }
 }

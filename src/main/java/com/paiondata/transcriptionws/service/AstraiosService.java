@@ -26,11 +26,12 @@ public interface AstraiosService {
 
     /**
      * Get information by caseId.
+     * @param doctorId doctorId.
      * @param caseId caseId.
      * @return ResponseData.Root.
      * @throws IOException IOException.
      */
-    ResponseData.Root getInformationByCaseId(String caseId) throws IOException;
+    ResponseData.Root getInformation(String doctorId, String caseId) throws IOException;
 
     /**
      * Upload text.
