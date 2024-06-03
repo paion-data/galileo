@@ -28,7 +28,7 @@
 
 当我们在IntelliJ中运行单元测试时，有时会遇到错误，提示“某个资源文件”无法找到。我们知道路径绝对正确。如果是这种情况，这只是IntelliJ的问题，通过明确告诉IntelliJ这些资源的位置来解决：
 
-![Error loading intelliJ-find-resource.png](img/intelliJ-find-resource.png)
+![Error loading intelliJ-find-resource.png](docs/intelliJ-find-resource.png)
 
 ###### 制表符宽度
 
