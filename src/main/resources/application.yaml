@@ -19,5 +19,3 @@ spring:
     name: Transcription-ws
 server:
   port: 8082
-  servlet:
-    context-path: /swagger
