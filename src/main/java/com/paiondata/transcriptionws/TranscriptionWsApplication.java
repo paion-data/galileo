@@ -25,8 +25,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TranscriptionWsApplication {
 
     /**
-     * Main method.
-     * @param args command line arguments.
+     * Application entry point.
+     * <p>
+     * Initializes and starts the Spring Boot application, processing any provided command-line arguments.
+
+     * @param args The command-line arguments passed when running the application.
      */
     public static void main(final String[] args) {
         SpringApplication.run(TranscriptionWsApplication.class, args);

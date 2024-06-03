@@ -15,7 +15,7 @@
  */
 package com.paiondata.transcriptionws.controller;
 
-import com.paiondata.transcriptionws.domain.R;
+import com.paiondata.transcriptionws.domain.Result;
 import com.paiondata.transcriptionws.domain.entity.RequestData;
 import com.paiondata.transcriptionws.domain.entity.ResponseData;
 import com.paiondata.transcriptionws.service.AITranscriptionService;
@@ -34,11 +34,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.io.IOException;
 
 /**
- * TranscriptionController.
+ * Represents the Transcription Controller responsible for handling audio transcription and text upload to Astraios.
  */
 @RestController
 @RequestMapping("/v1")
-@Tag(name = "Transcription Controller", description = "Transcription Controller")
+@Tag(name = "Transcription Controller", description = "Handles audio transcription and text upload to Astraios")
 public class TranscriptionController {
 
     @Autowired
@@ -51,20 +51,22 @@ public class TranscriptionController {
     private AstraiosService astraiosService;
 
     /**
-     * Transcribe the audio file and upload the transcription text to Astraios.
-     * @param requestData the request body.
-     * @return the response.
+     * Transcribes the audio file and uploads the transcription text to Astraios.
+     *
+     * @param requestData The request body containing the doctor and case IDs.
+     *
+     * @return The response indicating success or failure.
      */
     @PostMapping("/transcribe")
-    @Operation(summary = "Transcribe the audio file and upload the transcription text to Astraios")
-    public R<String> getTranscription(@RequestBody final RequestData requestData) {
+    @Operation(summary = "Transcribes audio and uploads transcription text to Astraios")
+    public Result<String> getTranscription(@RequestBody final RequestData requestData) {
         final String caseId = requestData.getCaseId();
         final String doctorId = requestData.getDoctorId();
 
         try {
-            final ResponseData.Root responseData = astraiosService.getInformation(doctorId, caseId);
+            final ResponseData.Root responseData = astraiosService.getDoctorInformationById(doctorId, caseId);
             if (responseData == null || responseData.getData() == null) {
-                return R.fail("Invalid caseId or data not found");
+                return Result.fail("Invalid caseId or data not found");
             }
 
             final String fileId = extractFileId(responseData);
@@ -72,18 +74,20 @@ public class TranscriptionController {
             final byte[] audioFile = minervaService.downloadFile(fileId);
             final String transcribedText = aiTranscriptionService.getTranscription(audioFile);
 
-            final boolean uploadSuccess = astraiosService.uploadText(doctorId, caseId, transcribedText);
-            return uploadSuccess ? R.ok() : R.fail("Failed to upload transcription text");
+            final boolean uploadSuccess = astraiosService.uploadTranscribedText(doctorId, caseId, transcribedText);
+            return uploadSuccess ? Result.ok() : Result.fail("Failed to upload transcription text");
 
         } catch (final IOException e) {
-            return R.fail("File processing error: " + e);
+            return Result.fail("File processing error: " + e);
         }
     }
 
     /**
-     * Extract the fileId from the response data.
-     * @param responseData the response data.
-     * @return String.
+     * Extracts the fileId from the response data.
+     *
+     * @param responseData The response data object.
+     *
+     * @return The extracted fileId.
      */
     private String extractFileId(final ResponseData.Root responseData) {
         return responseData.getData().getDoctor().getEdges().get(0).getNode().getCases().get().getEdges()

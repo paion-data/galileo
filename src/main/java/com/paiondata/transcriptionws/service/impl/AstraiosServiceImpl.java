@@ -59,13 +59,19 @@ public class AstraiosServiceImpl implements AstraiosService {
             .create();
 
     /**
-     * get information by caseId.
-     * @param caseId caseId.
-     * @return ResponseData.Root.
-     * @throws IOException IOException.
+     * Retrieves the patient record for a specific case associated with a doctor.
+     * <p>
+     * Retrieves the patient's medical information related to the given case identifier.
+
+     * @param doctorId The ID of the doctor.
+     * @param caseId The ID of the case to fetch the patient record for.
+
+     * @return The requested patient record encapsulated in a ResponseData.Root object.
+     *
+     * @throws IOException If an issue arises while fetching the patient record.
      */
     @Override
-    public ResponseData.Root getInformation(final String doctorId, final String caseId) throws IOException {
+    public ResponseData.Root getDoctorInformationById(final String doctorId, final String caseId) throws IOException {
         final Request request = buildPostRequest(URL, GET_DOCTOR_CASE_ID_PAYLOAD_PATH, caseId, doctorId);
         try (Response response = CLIENT.newCall(request).execute()) {
             if (!response.isSuccessful()) {
@@ -76,17 +82,22 @@ public class AstraiosServiceImpl implements AstraiosService {
     }
 
     /**
-     * upload text.
-     * @param doctorId doctorId.
-     * @param caseId caseId.
-     * @param transcribedText transcribedText.
-     * @return boolean.
-     * @throws IOException IOException.
+     * Attaches transcribed text to a specific case associated with a doctor.
+     * <p>
+     * Records the provided text under the given doctor and case identifiers.
+
+     * @param doctorId The ID of the doctor linked to the case.
+     * @param caseId The ID of the case where the text should be stored.
+     * @param transcribedText The text to be uploaded and associated with the case.
+
+     * @return True if the text upload was successful, false otherwise.
+     *
+     * @throws IOException If an issue occurs during the upload process.
      */
     @Override
-    public boolean uploadText(final String doctorId,
-                              final String caseId,
-                              final String transcribedText) throws IOException {
+    public boolean uploadTranscribedText(final String doctorId,
+                                         final String caseId,
+                                         final String transcribedText) throws IOException {
         final Request request = buildPostRequest(URL, UPLOAD_TEXT_PAYLOAD_PATH, doctorId, caseId, transcribedText);
         try (Response response = CLIENT.newCall(request).execute()) {
             return response.isSuccessful();
@@ -94,11 +105,15 @@ public class AstraiosServiceImpl implements AstraiosService {
     }
 
     /**
-     * build post request.
-     * @param url request url.
-     * @param payloadTemplate payload template.
-     * @param args args.
-     * @return Request.
+     * Constructs a POST request with the specified URL, payload, and arguments.
+     * <p>
+     * Generates a request body using the provided payload template and arguments, then sets appropriate headers.
+
+     * @param url The endpoint URL for the POST request.
+     * @param payloadTemplate The template for the request payload, which will be formatted with the provided arguments.
+     * @param args Variable number of arguments to be used in the payload template formatting.
+
+     * @return A fully constructed Request object ready for execution.
      */
     private Request buildPostRequest(final String url,
                                      final String payloadTemplate,

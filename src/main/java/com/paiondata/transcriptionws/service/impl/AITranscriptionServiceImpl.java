@@ -46,10 +46,15 @@ public class AITranscriptionServiceImpl implements AITranscriptionService {
             .build();
 
     /**
-     * Get the transcription of the given audio file.
-     * @param fileBytes the audio file.
-     * @return the transcription.
-     * @throws IOException thrown if the transcription request fails.
+     * Returns the transcription of an specified audio file.
+     * <p>
+     * The format of the audio file must be either .WAV or .MP3
+     *
+     * @param fileBytes  The byte array of the provided audio file contents
+     *
+     * @return the transcribed text of the audio file in one {@code String}
+     *
+     * @throws IOException if the {@code fileBytes} fails to be transcribed
      */
     @Override
     public String getTranscription(final byte[] fileBytes) throws IOException {

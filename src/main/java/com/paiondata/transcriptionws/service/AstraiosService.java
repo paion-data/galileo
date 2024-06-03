@@ -25,21 +25,31 @@ import java.io.IOException;
 public interface AstraiosService {
 
     /**
-     * Get information by caseId.
-     * @param doctorId doctorId.
-     * @param caseId caseId.
-     * @return ResponseData.Root.
-     * @throws IOException IOException.
+     * Retrieves the patient record for a specific case associated with a doctor.
+     * <p>
+     * Retrieves the patient's medical information related to the given case identifier.
+
+     * @param doctorId The ID of the doctor.
+     * @param caseId The ID of the case to fetch the patient record for.
+
+     * @return The requested patient record encapsulated in a ResponseData.Root object.
+     *
+     * @throws IOException If an issue arises while fetching the patient record.
      */
-    ResponseData.Root getInformation(String doctorId, String caseId) throws IOException;
+    ResponseData.Root getDoctorInformationById(String doctorId, String caseId) throws IOException;
 
     /**
-     * Upload text.
-     * @param doctorId doctorId.
-     * @param caseId caseId.
-     * @param transcribedText transcribedText.
-     * @return boolean.
-     * @throws IOException IOException.
+     * Attaches transcribed text to a specific case associated with a doctor.
+     * <p>
+     * Records the provided text under the given doctor and case identifiers.
+
+     * @param doctorId The ID of the doctor linked to the case.
+     * @param caseId The ID of the case where the text should be stored.
+     * @param transcribedText The text to be uploaded and associated with the case.
+
+     * @return True if the text upload was successful, false otherwise.
+     *
+     * @throws IOException If an issue occurs during the upload process.
      */
-    boolean uploadText(String doctorId, String caseId, String transcribedText) throws IOException;
+    boolean uploadTranscribedText(String doctorId, String caseId, String transcribedText) throws IOException;
 }

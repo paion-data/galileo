@@ -22,10 +22,15 @@ import java.io.IOException;
  */
 public interface AITranscriptionService {
     /**
-     * Get the transcription of the given file.
-     * @param fileBytes the file bytes.
-     * @return the transcription.
-     * @throws IOException thrown if an error occurs.
+     * Returns the transcription of an specified audio file.
+     * <p>
+     * The format of the audio file must be either .WAV or .MP3
+     *
+     * @param fileBytes  The byte array of the provided audio file contents
+     *
+     * @return the transcribed text of the audio file in one {@code String}
+     *
+     * @throws IOException if the {@code fileBytes} fails to be transcribed
      */
     String getTranscription(byte[] fileBytes) throws IOException;
 }

@@ -39,10 +39,15 @@ public class MinervaServiceImpl implements MinervaService {
             .build();
 
     /**
-     * Downloads a file from Minerva.
-     * @param fileId The file ID.
-     * @return the file.
-     * @throws IOException if the file cannot be downloaded.
+     * Retrieves a file from Minerva based on its unique identifier.
+     * <p>
+     * Fetches the binary content of a file from the Minerva system using the provided file ID.
+
+     * @param fileId The unique identifier of the file to be downloaded.
+
+     * @return The file content as a byte array.
+     *
+     * @throws IOException If an input/output error occurs during the file retrieval process.
      */
     @Override
     public byte[] downloadFile(final String fileId) throws IOException {

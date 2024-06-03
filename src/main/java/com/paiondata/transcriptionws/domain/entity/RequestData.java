@@ -20,44 +20,50 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 
 /**
- * RequestData.
+ * Encapsulates the request data with identifiers for a doctor and a case.
  */
-@Schema(description = "request data")
+@Schema(description = "Request data container including identifiers for a doctor and a case.")
 public class RequestData implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Schema(description = "doctor's ID")
+
+    @Schema(description = "The ID of the doctor.")
     private String doctorId;
-    @Schema(description = "case's ID")
+
+    @Schema(description = "The ID of the case.")
     private String caseId;
 
     /**
-     * Get doctorId.
-     * @return doctorId.
+     * Retrieves the doctor's ID.
+     *
+     * @return The doctor's ID.
      */
     public String getDoctorId() {
         return doctorId;
     }
 
     /**
-     * Set doctorId.
-     * @param doctorId doctorId.
+     * Assigns the doctor's ID.
+     *
+     * @param doctorId The doctor's ID to assign.
      */
     public void setDoctorId(final String doctorId) {
         this.doctorId = doctorId;
     }
 
     /**
-     * Get caseId.
-     * @return caseId.
+     * Retrieves the case's ID.
+     *
+     * @return The case's ID.
      */
     public String getCaseId() {
         return caseId;
     }
 
     /**
-     * Set caseId.
-     * @param caseId caseId.
+     * Assigns the case's ID.
+     *
+     * @param caseId The case's ID to assign.
      */
     public void setCaseId(final String caseId) {
         this.caseId = caseId;

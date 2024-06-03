@@ -22,10 +22,15 @@ import java.io.IOException;
  */
 public interface MinervaService {
     /**
-     * Download file from Minerva.
-     * @param fileId File ID.
-     * @return the file.
-     * @throws IOException if an I/O error occurs.
+     * Retrieves a file from Minerva based on its unique identifier.
+     * <p>
+     * Fetches the binary content of a file from the Minerva system using the provided file ID.
+
+     * @param fileId The unique identifier of the file to be downloaded.
+
+     * @return The file content as a byte array.
+     *
+     * @throws IOException If an input/output error occurs during the file retrieval process.
      */
     byte[] downloadFile(String fileId) throws IOException;
 }

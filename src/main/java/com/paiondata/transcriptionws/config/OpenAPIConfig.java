@@ -22,23 +22,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * OpenAPI configuration.
+ * Configures the OpenAPI specification for the application.
  */
 @Configuration
 public class OpenAPIConfig {
+
     /**
-     * OpenAPI configuration.
-     * @return OpenAPI.
+     * Generates the OpenAPI definition.
+     *
+     * @return The configured OpenAPI object.
      */
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info()
                         .title("Transcription Web Service")
-                        .description("SpringBoot Swagger3")
+                        .description("A SpringBoot application utilizing Swagger3 for API documentation")
                         .version("v1"))
                 .externalDocs(new ExternalDocumentation()
-                        .description("API")
-                        .url("/"));
+                        .description("API Documentation")
+                        .url("/api-docs"));
     }
 }
