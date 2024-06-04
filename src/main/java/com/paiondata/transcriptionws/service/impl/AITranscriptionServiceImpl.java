@@ -15,8 +15,12 @@
  */
 package com.paiondata.transcriptionws.service.impl;
 
+import com.paiondata.transcriptionws.config.WebServiceConfig;
 import com.paiondata.transcriptionws.service.AITranscriptionService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import okhttp3.MediaType;
@@ -35,15 +39,29 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class AITranscriptionServiceImpl implements AITranscriptionService {
-
     private static final int TIME_OUT = 150;
     private static final String DEFAULT_AUDIO_FILENAME = "trans";
     private static final MediaType AUDIO_MEDIA_TYPE = MediaType.parse("audio/*");
-    private static final String URL = "http://localhost:5000/model1";
+    private static final Logger LOG = LoggerFactory.getLogger(AITranscriptionServiceImpl.class);
+
+    /**
+     * The HTTP client used to send requests to the AI transcription service.
+     */
     private static final OkHttpClient CLIENT = new OkHttpClient.Builder()
             .readTimeout(TIME_OUT, TimeUnit.SECONDS)
             .callTimeout(TIME_OUT, TimeUnit.SECONDS)
             .build();
+
+    private final String url;
+
+    /**
+     * The constructor.
+     * @param webServiceConfig The configuration of the web service
+     */
+    @Autowired
+    public AITranscriptionServiceImpl(final WebServiceConfig webServiceConfig) {
+        this.url = webServiceConfig.getAITranscriptionServiceUrl();
+    }
 
     /**
      * Returns the transcription of an specified audio file.
@@ -64,13 +82,15 @@ public class AITranscriptionServiceImpl implements AITranscriptionService {
                 .build();
 
         final Request request = new Request.Builder()
-                .url(URL)
+                .url(url)
                 .post(requestBody)
                 .build();
 
         try (Response response = CLIENT.newCall(request).execute()) {
             if (!response.isSuccessful()) {
-                throw new IOException("Transcription request failed with status code: " + response.code());
+                final String message = String.format("Failed to create transcription request: %s", response.message());
+                LOG.error(message);
+                throw new IOException(message);
             }
 
             return Objects.requireNonNull(response.body()).string();

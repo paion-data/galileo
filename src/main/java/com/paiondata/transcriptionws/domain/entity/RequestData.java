@@ -34,6 +34,17 @@ public class RequestData implements Serializable {
     private String caseId;
 
     /**
+     * Constructor.
+     * @param doctorId the doctor's ID
+     *
+     * @param caseId the case's ID
+     */
+    public RequestData(final String doctorId, final String caseId) {
+        this.doctorId = doctorId;
+        this.caseId = caseId;
+    }
+
+    /**
      * Retrieves the doctor's ID.
      *
      * @return The doctor's ID.

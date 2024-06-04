@@ -15,8 +15,12 @@
  */
 package com.paiondata.transcriptionws.service.impl;
 
+import com.paiondata.transcriptionws.config.WebServiceConfig;
 import com.paiondata.transcriptionws.service.MinervaService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import okhttp3.OkHttpClient;
@@ -25,18 +29,25 @@ import okhttp3.Response;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * MinervaServiceImpl.
  */
 @Service
 public class MinervaServiceImpl implements MinervaService {
-
-    private static final String BASE_URL = "http://localhost:8080/v1/file/download?fileId=";
+    private static final Logger LOG = LoggerFactory.getLogger(MinervaServiceImpl.class);
     private static final OkHttpClient CLIENT = new OkHttpClient.Builder()
-            .callTimeout(10, TimeUnit.SECONDS)
             .build();
+    private final String url;
+
+    /**
+     * The constructor for MinervaServiceImpl.
+     * @param webServiceConfig The configuration for the web service.
+     */
+    @Autowired
+    public MinervaServiceImpl(final WebServiceConfig webServiceConfig) {
+        this.url = webServiceConfig.getMinervaServiceUrl();
+    }
 
     /**
      * Retrieves a file from Minerva based on its unique identifier.
@@ -51,7 +62,7 @@ public class MinervaServiceImpl implements MinervaService {
      */
     @Override
     public byte[] downloadFile(final String fileId) throws IOException {
-        final String completeUrl = BASE_URL + fileId;
+        final String completeUrl = url + fileId;
         final Request request = new Request.Builder()
                 .url(completeUrl)
                 .addHeader("Accept", "*/*")
@@ -59,9 +70,13 @@ public class MinervaServiceImpl implements MinervaService {
 
         try (Response response = CLIENT.newCall(request).execute()) {
             if (!response.isSuccessful()) {
-                throw new IOException("Failed to download file: " + response.message());
+                final String message = String.format("Failed to download file: %s", response.message());
+                LOG.error(message);
+                throw new IOException(message);
             }
 
+            //The ByteArrayOutputStream does not need to be closed manually
+            //but be careful to close resources properly when using other types of streams
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             response.body().byteStream().transferTo(outputStream);
             return outputStream.toByteArray();

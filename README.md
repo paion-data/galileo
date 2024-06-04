@@ -40,8 +40,8 @@ Continuation indent: 8
 
 如果按下TAB或Enter时制表符仍然以2个空格出现，而不是4个空格，请尝试：
 
-1. “Settings | Editor | Code Style” -- 如果启用了“Detect and use existing file indents for editing”，请尝试禁用它（默认是启用的）。注意：可能需要重新打开编辑器中的文件。
-2. 在你的文件路径中是否有任何.editorconfig文件？来自.editorconfig的设置（“Settings | Editor | Code Style”）具有优先级（将覆盖）你的IDE设置。
+1. “Settings -> Editor ->  Code Style” -- 如果启用了“Detect and use existing file indents for editing”，请尝试禁用它（默认是启用的）。注意：可能需要重新打开编辑器中的文件。
+2. 在你的文件路径中是否有任何.editorconfig文件？来自.editorconfig的设置（“Settings ->  Editor ->  Code Style”）具有优先级（将覆盖）你的IDE设置。
 
 ### 打包编译
 

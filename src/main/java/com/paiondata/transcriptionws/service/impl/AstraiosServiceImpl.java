@@ -19,11 +19,15 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.paiondata.transcriptionws.config.WebServiceConfig;
 import com.paiondata.transcriptionws.domain.entity.ResponseData;
 import com.paiondata.transcriptionws.handler.OptionalGsonAdapters;
 import com.paiondata.transcriptionws.service.AstraiosService;
 
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import okhttp3.MediaType;
@@ -37,26 +41,34 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
  * AstraiosServiceImpl.
  */
 @Service
 public class AstraiosServiceImpl implements AstraiosService {
-
     private static final String JSON = "application/json";
-    private static final String URL = "http://localhost:8080/v1/data/doctor";
     private static final String GET_DOCTOR_CASE_ID_PAYLOAD_PATH = "get-doctor-caseId.json";
-    private static final String UPLOAD_TEXT_PAYLOAD_PATH = "upload-text.json";
+    private static final String UPLOAD_QUERY_PAYLOAD_PATH = "upload-query.json";
     private static final MediaType JSON_MEDIA_TYPE = MediaType.parse(JSON);
+    private static final Logger LOG = LoggerFactory.getLogger(AstraiosServiceImpl.class);
     private static final OkHttpClient CLIENT = new OkHttpClient.Builder()
-            .callTimeout(10, TimeUnit.SECONDS)
             .build();
-    Gson gson = new GsonBuilder()
-            .registerTypeHierarchyAdapter(Optional.class, new OptionalGsonAdapters.OptionalSerializer())
-            .registerTypeHierarchyAdapter(Optional.class, new OptionalGsonAdapters.OptionalDeserializer())
-            .create();
+    private final String serviceUrl;
+    private final Gson gson;
+
+    /**
+     * The constructor for AstraiosServiceImpl.
+     * @param webServiceConfig The configuration for the web service.
+     */
+    @Autowired
+    public AstraiosServiceImpl(final WebServiceConfig webServiceConfig) {
+        this.serviceUrl = webServiceConfig.getAstraiosServiceUrl();
+        this.gson = new GsonBuilder()
+                .registerTypeHierarchyAdapter(Optional.class, new OptionalGsonAdapters.OptionalSerializer())
+                .registerTypeHierarchyAdapter(Optional.class, new OptionalGsonAdapters.OptionalDeserializer())
+                .create();
+    }
 
     /**
      * Retrieves the patient record for a specific case associated with a doctor.
@@ -72,11 +84,14 @@ public class AstraiosServiceImpl implements AstraiosService {
      */
     @Override
     public ResponseData.Root getDoctorInformationById(final String doctorId, final String caseId) throws IOException {
-        final Request request = buildPostRequest(URL, GET_DOCTOR_CASE_ID_PAYLOAD_PATH, caseId, doctorId);
+        final Request request = buildPostRequest(serviceUrl, GET_DOCTOR_CASE_ID_PAYLOAD_PATH, caseId, doctorId);
         try (Response response = CLIENT.newCall(request).execute()) {
             if (!response.isSuccessful()) {
-                throw new IOException("Unexpected code " + response);
+                final String message = String.format("Failed to get doctor information: %s", response.message());
+                LOG.error(message);
+                throw new IOException(message);
             }
+
             return gson.fromJson(response.body().string(), ResponseData.Root.class);
         }
     }
@@ -98,7 +113,8 @@ public class AstraiosServiceImpl implements AstraiosService {
     public boolean uploadTranscribedText(final String doctorId,
                                          final String caseId,
                                          final String transcribedText) throws IOException {
-        final Request request = buildPostRequest(URL, UPLOAD_TEXT_PAYLOAD_PATH, doctorId, caseId, transcribedText);
+        final Request request =
+                buildPostRequest(serviceUrl, UPLOAD_QUERY_PAYLOAD_PATH, doctorId, caseId, transcribedText);
         try (Response response = CLIENT.newCall(request).execute()) {
             return response.isSuccessful();
         }
