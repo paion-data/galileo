@@ -16,11 +16,12 @@
 package com.paiondata.transcriptionws.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.paiondata.transcriptionws.domain.entity.RequestData
-import com.paiondata.transcriptionws.domain.entity.ResponseData
+import com.paiondata.transcriptionws.common.domain.entity.RequestData
+import com.paiondata.transcriptionws.common.domain.entity.ResponseData
 import com.paiondata.transcriptionws.service.AITranscriptionService
 import com.paiondata.transcriptionws.service.AstraiosService
 import com.paiondata.transcriptionws.service.MinervaService
+import com.paiondata.transcriptionws.service.TranscriptionService
 
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -43,7 +44,7 @@ import spock.lang.Specification
 @WebMvcTest(TranscriptionController.class)
 class TranscriptionControllerITSpec extends Specification {
 
-    private static final String URL = '/v1/transcribe'
+    private static final String URL = '/v1/transcribe-offline'
 
     @Autowired
     private MockMvc mockMvc
@@ -56,6 +57,9 @@ class TranscriptionControllerITSpec extends Specification {
 
     @MockBean
     private AstraiosService astraiosService
+
+    @MockBean
+    private TranscriptionService transcriptionServicel
 
     /**
      * Tests the end-to-end workflow of audio transcription and text upload.
@@ -83,17 +87,11 @@ class TranscriptionControllerITSpec extends Specification {
                 .thenReturn(true)
 
         when:
-        mockMvc.perform(MockMvcRequestBuilders.post(URL)
+        def result = mockMvc.perform(MockMvcRequestBuilders.post(URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(requestData)))
 
         then:
-        mockMvc.perform(
-                MockMvcRequestBuilders.post(URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(requestData))
-        ).andExpect(
-                MockMvcResultMatchers.status().isOk()
-        )
+        result.andExpect(MockMvcResultMatchers.status().isOk())
     }
 }

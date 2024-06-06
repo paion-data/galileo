@@ -13,11 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.paiondata.transcriptionws.domain;
+package com.paiondata.transcriptionws.common.constant;
 
 /**
- * The base class for all entities.
+ * The message constant class.
  */
-public abstract class BaseEntity {
-    private static final long serialVersionUID = 1L;
+public class MessageConstant {
+
+    /**
+     * The doctor not found message.
+     */
+    public static final String DOCTOR_NOT_FOUND = "The doctor id entered is incorrect and the doctor cannot be found";
+    /**
+     * The case not found message.
+     */
+    public static final String CASE_NOT_FOUND = "The case id entered is incorrect and the case cannot be found";
+    /**
+     * The audio file not set message.
+     */
+    public static final String AUDIO_FILE_NOT_FOUND = "The fileId is not set";
 }

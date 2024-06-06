@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.paiondata.transcriptionws.domain.entity;
+package com.paiondata.transcriptionws.common.domain.entity;
 
-import com.paiondata.transcriptionws.domain.BaseEntity;
+import com.paiondata.transcriptionws.common.domain.BaseEntity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.paiondata.transcriptionws.domain.entity;
+package com.paiondata.transcriptionws.common.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.paiondata.transcriptionws.domain.BaseEntity;
+import com.paiondata.transcriptionws.common.domain.BaseEntity;
 
 import java.util.List;
 import java.util.Optional;

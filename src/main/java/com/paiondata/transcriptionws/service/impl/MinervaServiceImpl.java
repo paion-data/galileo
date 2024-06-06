@@ -17,28 +17,28 @@ package com.paiondata.transcriptionws.service.impl;
 
 import com.paiondata.transcriptionws.config.WebServiceConfig;
 import com.paiondata.transcriptionws.service.MinervaService;
+import com.paiondata.transcriptionws.service.OkHttpClientService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * The default implementation of {@link MinervaService}
+ * The default implementation of {@link MinervaService}.
  */
 @Service
 public class MinervaServiceImpl implements MinervaService {
     private static final Logger LOG = LoggerFactory.getLogger(MinervaServiceImpl.class);
-    private static final OkHttpClient CLIENT = new OkHttpClient.Builder()
-            .build();
     private final String url;
+
+    @Autowired
+    private OkHttpClientService clientService;
 
     /**
      * The constructor for MinervaServiceImpl.
@@ -63,12 +63,8 @@ public class MinervaServiceImpl implements MinervaService {
     @Override
     public byte[] downloadFile(final String fileId) throws IOException {
         final String completeUrl = url + fileId;
-        final Request request = new Request.Builder()
-                .url(completeUrl)
-                .addHeader("Accept", "*/*")
-                .build();
 
-        try (Response response = CLIENT.newCall(request).execute()) {
+        try (Response response = clientService.fileDownloadClient(completeUrl)) {
             if (!response.isSuccessful()) {
                 final String message = String.format("Failed to download file: %s", response.message());
                 LOG.error(message);

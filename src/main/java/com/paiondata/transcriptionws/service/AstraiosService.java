@@ -15,7 +15,7 @@
  */
 package com.paiondata.transcriptionws.service;
 
-import com.paiondata.transcriptionws.domain.entity.ResponseData;
+import com.paiondata.transcriptionws.common.domain.entity.ResponseData;
 
 import java.io.IOException;
 

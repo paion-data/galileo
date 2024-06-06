@@ -15,13 +15,18 @@
  */
 package com.paiondata.transcriptionws.controller;
 
-import com.paiondata.transcriptionws.domain.Result;
-import com.paiondata.transcriptionws.domain.entity.RequestData;
-import com.paiondata.transcriptionws.domain.entity.ResponseData;
+import com.paiondata.transcriptionws.common.domain.Result;
+import com.paiondata.transcriptionws.common.domain.entity.RequestData;
+import com.paiondata.transcriptionws.common.domain.entity.ResponseData;
+import com.paiondata.transcriptionws.common.exception.InformationNotFoundException;
 import com.paiondata.transcriptionws.service.AITranscriptionService;
 import com.paiondata.transcriptionws.service.AstraiosService;
 import com.paiondata.transcriptionws.service.MinervaService;
+import com.paiondata.transcriptionws.service.TranscriptionService;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +46,8 @@ import java.io.IOException;
 @Tag(name = "Transcription Controller", description = "Handles audio transcription and text upload to Astraios")
 public class TranscriptionController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(TranscriptionController.class);
+
     @Autowired
     private MinervaService minervaService;
 
@@ -49,6 +56,9 @@ public class TranscriptionController {
 
     @Autowired
     private AstraiosService astraiosService;
+
+    @Autowired
+    private TranscriptionService transcriptionService;
 
     /**
      * Transcribes the audio file and uploads the transcription text to Astraios.
@@ -63,13 +73,19 @@ public class TranscriptionController {
         final String caseId = requestData.getCaseId();
         final String doctorId = requestData.getDoctorId();
 
+        // Validate inputs
+        if (StringUtils.isBlank(caseId) || StringUtils.isBlank(doctorId)) {
+            LOG.warn("Missing required parameters: caseId or doctorId");
+            return Result.fail("Missing caseId or doctorId");
+        }
+
         try {
             final ResponseData.Root responseData = astraiosService.getDoctorInformationById(doctorId, caseId);
             if (responseData == null || responseData.getData() == null) {
                 return Result.fail("Invalid caseId or data not found");
             }
 
-            final String fileId = extractFileId(responseData);
+            final String fileId = transcriptionService.extractFileId(responseData);
 
             final byte[] audioFile = minervaService.downloadFile(fileId);
             final String transcribedText = aiTranscriptionService.getTranscription(audioFile);
@@ -77,20 +93,8 @@ public class TranscriptionController {
             final boolean uploadSuccess = astraiosService.uploadTranscribedText(doctorId, caseId, transcribedText);
             return uploadSuccess ? Result.ok() : Result.fail("Failed to upload transcription text");
 
-        } catch (final IOException e) {
-            return Result.fail("File processing error: " + e);
+        } catch (IOException | InformationNotFoundException e) {
+            return Result.fail("Error during transcription process: " + e.getMessage());
         }
-    }
-
-    /**
-     * Extracts the fileId from the response data.
-     *
-     * @param responseData The response data object.
-     *
-     * @return The extracted fileId.
-     */
-    private String extractFileId(final ResponseData.Root responseData) {
-        return responseData.getData().getDoctor().getEdges().get(0).getNode().getCases().get().getEdges()
-                .get(0).getNode().getAudio().get().getEdges().get(0).getNode().getFileId();
     }
 }

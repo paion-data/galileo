@@ -1,8 +1,0 @@
-{
-  "query": "mutation attachTranscription (\n  $doctorId: ID!\n  $caseId: ID!\n  $text: String!\n  )\n{\n  doctor(op: UPSERT, data:{id:$doctorId}) {\n    edges {\n      node {\n        cases(op: UPSERT, data:{id: $caseId, transcribed: true, transcribedText: $text}) {\n          edges {\n            node {\n              transcribed\n              transcribedText\n            }\n          }\n        }\n      }\n    }\n  }\n}",
-  "variables": {
-    "doctorId" : "%s",
-    "caseId" : "%s",
-    "text" : "%s"
-  }
-}
