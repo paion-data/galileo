@@ -43,7 +43,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 /**
- * AstraiosServiceImpl.
+ * The default implementation of {@link AstraiosService}
  */
 @Service
 public class AstraiosServiceImpl implements AstraiosService {

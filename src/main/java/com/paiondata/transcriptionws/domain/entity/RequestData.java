@@ -15,18 +15,15 @@
  */
 package com.paiondata.transcriptionws.domain.entity;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.paiondata.transcriptionws.domain.BaseEntity;
 
-import java.io.Serializable;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Encapsulates the request data with identifiers for a doctor and a case.
  */
 @Schema(description = "Request data container including identifiers for a doctor and a case.")
-public class RequestData implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class RequestData extends BaseEntity {
     @Schema(description = "The ID of the doctor.")
     private String doctorId;
 

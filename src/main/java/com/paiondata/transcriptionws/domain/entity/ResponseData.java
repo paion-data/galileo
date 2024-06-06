@@ -16,17 +16,15 @@
 package com.paiondata.transcriptionws.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.paiondata.transcriptionws.domain.BaseEntity;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Represents a hierarchical structure containing various nested objects for data retrieval.
  */
-public class ResponseData implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class ResponseData extends BaseEntity {
     /**
      * Root object holding the main data.
      */

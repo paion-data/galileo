@@ -77,7 +77,7 @@ public class OptionalGsonAdapters {
      * <p>
      * Parses a JSON element into an Optional value. If the JSON represents a null value, returns an empty Optional;
      * otherwise, deserializes the JSON into the generic type contained within the Optional.
-
+     *
      * @param <T> The generic type of the value to be contained within the Optional.
      */
     public static class OptionalDeserializer<T> implements JsonDeserializer<Optional<T>> {

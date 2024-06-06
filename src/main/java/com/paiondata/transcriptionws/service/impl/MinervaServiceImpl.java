@@ -31,7 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * MinervaServiceImpl.
+ * The default implementation of {@link MinervaService}
  */
 @Service
 public class MinervaServiceImpl implements MinervaService {
@@ -75,7 +75,7 @@ public class MinervaServiceImpl implements MinervaService {
                 throw new IOException(message);
             }
 
-            //The ByteArrayOutputStream does not need to be closed manually
+            //The ByteArrayOutputStream does not need to be closed manually \\
             //but be careful to close resources properly when using other types of streams
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             response.body().byteStream().transferTo(outputStream);

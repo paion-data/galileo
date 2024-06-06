@@ -17,8 +17,6 @@ package com.paiondata.transcriptionws.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.io.Serializable;
-
 /**
  * Represents a generic response container for API operations.
  * <p>
@@ -28,7 +26,7 @@ import java.io.Serializable;
  * @param <T> The type of the response data.
  */
 @Schema(description = "A generic response container for API operations")
-public class Result<T> implements Serializable {
+public class Result<T> extends BaseEntity {
     /**
      * Constant for a successful status code.
      */
@@ -37,8 +35,6 @@ public class Result<T> implements Serializable {
      * Constant for a failed status code.
      */
     public static final int FAIL = 500;
-
-    private static final long serialVersionUID = 1L;
     private static final String DEFAULT_SUCCESS_MESSAGE = "Operation succeeded";
     private static final String DEFAULT_FAIL_MESSAGE = "Operation failed";
 

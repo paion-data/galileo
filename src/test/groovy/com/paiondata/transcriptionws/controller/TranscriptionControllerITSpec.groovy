@@ -39,8 +39,6 @@ import spock.lang.Specification
  *
  * This test verifies the flow from receiving a request to transcribe audio, interacting with external services,
  * and uploading the transcribed text back to the system.
- *
- * @author Your_Name
  */
 @WebMvcTest(TranscriptionController.class)
 class TranscriptionControllerITSpec extends Specification {

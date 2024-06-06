@@ -35,7 +35,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
- * AITranscriptionServiceImpl.
+ * The default implementation of {@link AITranscriptionService}
  */
 @Service
 public class AITranscriptionServiceImpl implements AITranscriptionService {
