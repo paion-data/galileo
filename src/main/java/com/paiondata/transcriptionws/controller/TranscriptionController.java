@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ public class TranscriptionController {
      *
      * @return The response indicating success or failure.
      */
-    @PostMapping("/transcribe")
+    @PostMapping("/transcribe-offline")
     @Operation(summary = "Transcribes audio and uploads transcription text to Astraios")
     public Result<String> getTranscription(@RequestBody final RequestData requestData) {
         final String caseId = requestData.getCaseId();

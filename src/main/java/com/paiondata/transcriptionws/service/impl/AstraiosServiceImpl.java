@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,10 +74,10 @@ public class AstraiosServiceImpl implements AstraiosService {
      * Retrieves the patient record for a specific case associated with a doctor.
      * <p>
      * Retrieves the patient's medical information related to the given case identifier.
-
+     *
      * @param doctorId The ID of the doctor.
      * @param caseId The ID of the case to fetch the patient record for.
-
+     *
      * @return The requested patient record encapsulated in a ResponseData.Root object.
      *
      * @throws IOException If an issue arises while fetching the patient record.
@@ -100,11 +100,11 @@ public class AstraiosServiceImpl implements AstraiosService {
      * Attaches transcribed text to a specific case associated with a doctor.
      * <p>
      * Records the provided text under the given doctor and case identifiers.
-
+     *
      * @param doctorId The ID of the doctor linked to the case.
      * @param caseId The ID of the case where the text should be stored.
      * @param transcribedText The text to be uploaded and associated with the case.
-
+     *
      * @return True if the text upload was successful, false otherwise.
      *
      * @throws IOException If an issue occurs during the upload process.
@@ -124,11 +124,11 @@ public class AstraiosServiceImpl implements AstraiosService {
      * Constructs a POST request with the specified URL, payload, and arguments.
      * <p>
      * Generates a request body using the provided payload template and arguments, then sets appropriate headers.
-
+     *
      * @param url The endpoint URL for the POST request.
      * @param payloadTemplate The template for the request payload, which will be formatted with the provided arguments.
      * @param args Variable number of arguments to be used in the payload template formatting.
-
+     *
      * @return A fully constructed Request object ready for execution.
      */
     private Request buildPostRequest(final String url,

@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ public class OptionalGsonAdapters {
      * <p>
      * Converts an Optional value to a JSON representation. If the Optional is present, serializes its value;
      * otherwise, outputs a JSON null.
-
+     *
      * @param <T> The generic type of the value contained within the Optional.
      */
     public static class OptionalSerializer<T> implements JsonSerializer<Optional<T>> {

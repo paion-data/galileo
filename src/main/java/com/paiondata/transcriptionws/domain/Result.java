@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import java.io.Serializable;
  * <p>
  * This class encapsulates the status code, message, and data for a successful or failed response.
  * It provides static methods for creating success and failure responses with optional data and messages.
-
+ *
  * @param <T> The type of the response data.
  */
 @Schema(description = "A generic response container for API operations")

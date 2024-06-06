@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ public class TranscriptionWsApplication {
      * Application entry point.
      * <p>
      * Initializes and starts the Spring Boot application, processing any provided command-line arguments.
-
+     *
      * @param args The command-line arguments passed when running the application.
      */
     public static void main(final String[] args) {

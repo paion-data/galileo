@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,9 +53,9 @@ public class MinervaServiceImpl implements MinervaService {
      * Retrieves a file from Minerva based on its unique identifier.
      * <p>
      * Fetches the binary content of a file from the Minerva system using the provided file ID.
-
+     *
      * @param fileId The unique identifier of the file to be downloaded.
-
+     *
      * @return The file content as a byte array.
      *
      * @throws IOException If an input/output error occurs during the file retrieval process.
