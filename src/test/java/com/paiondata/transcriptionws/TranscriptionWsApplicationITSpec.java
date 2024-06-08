@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import io.restassured.response.Response;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TranscriptionWsApplicationTests {
+public class TranscriptionWsApplicationITSpec {
 
     @LocalServerPort
     private int port;

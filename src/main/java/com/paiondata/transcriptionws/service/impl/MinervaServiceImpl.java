@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,53 +15,64 @@
  */
 package com.paiondata.transcriptionws.service.impl;
 
+import com.paiondata.transcriptionws.config.WebServiceConfig;
 import com.paiondata.transcriptionws.service.MinervaService;
+import com.paiondata.transcriptionws.service.OkHttpClientService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 /**
- * MinervaServiceImpl.
+ * The default implementation of {@link MinervaService}.
  */
 @Service
 public class MinervaServiceImpl implements MinervaService {
+    private static final Logger LOG = LoggerFactory.getLogger(MinervaServiceImpl.class);
+    private final String url;
 
-    private static final String BASE_URL = "http://localhost:8080/v1/file/download?fileId=";
-    private static final OkHttpClient CLIENT = new OkHttpClient.Builder()
-            .callTimeout(10, TimeUnit.SECONDS)
-            .build();
+    @Autowired
+    private OkHttpClientService clientService;
+
+    /**
+     * The constructor for MinervaServiceImpl.
+     * @param webServiceConfig The configuration for the web service.
+     */
+    @Autowired
+    public MinervaServiceImpl(final WebServiceConfig webServiceConfig) {
+        this.url = webServiceConfig.getMinervaServiceUrl();
+    }
 
     /**
      * Retrieves a file from Minerva based on its unique identifier.
      * <p>
      * Fetches the binary content of a file from the Minerva system using the provided file ID.
-
+     *
      * @param fileId The unique identifier of the file to be downloaded.
-
+     *
      * @return The file content as a byte array.
      *
      * @throws IOException If an input/output error occurs during the file retrieval process.
      */
     @Override
     public byte[] downloadFile(final String fileId) throws IOException {
-        final String completeUrl = BASE_URL + fileId;
-        final Request request = new Request.Builder()
-                .url(completeUrl)
-                .addHeader("Accept", "*/*")
-                .build();
+        final String completeUrl = url + fileId;
 
-        try (Response response = CLIENT.newCall(request).execute()) {
+        try (Response response = clientService.fileDownloadClient(completeUrl)) {
             if (!response.isSuccessful()) {
-                throw new IOException("Failed to download file: " + response.message());
+                final String message = String.format("Failed to download file: %s", response.message());
+                LOG.error(message);
+                throw new IOException(message);
             }
 
+            //The ByteArrayOutputStream does not need to be closed manually \\
+            //but be careful to close resources properly when using other types of streams
             final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             response.body().byteStream().transferTo(outputStream);
             return outputStream.toByteArray();

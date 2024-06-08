@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.paiondata.transcriptionws.test.acceptance;
+package com.paiondata.transcriptionws.common.domain;
 
-import org.junit.platform.suite.api.IncludeEngines;
-import org.junit.platform.suite.api.SelectClasspathResource;
-import org.junit.platform.suite.api.Suite;
+import java.io.Serializable;
 
 /**
- * Cucumber test suite configs.
+ * The base class for all entities.
  */
-@Suite
-@IncludeEngines("cucumber")
-@SelectClasspathResource("com/paiondata/transcriptionws/test/acceptance/")
-public class RunCucumberTest {
-    // This class should be empty
+public class BaseEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 }

@@ -1,6 +1,0 @@
-{
-  "query": "mutation CreateDoctorCaseAutioOnce(\n  $fileId: String!\n  ) {\n  doctor(op: UPSERT, data: {name: \"Jack\", oidcId: \"awxvt62dxa\", cases: {title: \"test01\", patient: {\n    name: \"Peter\"\n  }, audio: {fileId: $fileId, filename: \"hello\", fileType: \"mpeg\"}}}) {\n    edges {\n      node {\n        id\n        oidcId\n        name\n        cases {\n          edges {\n            node {\n              id\n              title\n              transcribedText\n              patient {\n                edges {\n                  node {\n                    id\n                    name\n                  }\n                }\n              }\n              audio {\n                edges {\n                  node {\n                    fileId\n                    filename\n                    fileType\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
-  "variables": {
-    "fileId" : "%s"
-  }
-}

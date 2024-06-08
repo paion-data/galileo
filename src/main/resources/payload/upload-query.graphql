@@ -1,0 +1,17 @@
+mutation attachTranscription
+{
+  doctor(op: UPSERT, data:{id: "%s"}) {
+    edges {
+      node {
+        cases(op: UPSERT, data:{id: "%s", transcribed: true, transcribedText: "%s"}) {
+          edges {
+            node {
+              transcribed
+              transcribedText
+            }
+          }
+        }
+      }
+    }
+  }
+}

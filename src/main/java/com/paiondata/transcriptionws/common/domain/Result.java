@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,22 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.paiondata.transcriptionws.domain;
+package com.paiondata.transcriptionws.common.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.io.Serializable;
 
 /**
  * Represents a generic response container for API operations.
  * <p>
  * This class encapsulates the status code, message, and data for a successful or failed response.
  * It provides static methods for creating success and failure responses with optional data and messages.
-
+ *
  * @param <T> The type of the response data.
  */
 @Schema(description = "A generic response container for API operations")
-public class Result<T> implements Serializable {
+public class Result<T> extends BaseEntity {
     /**
      * Constant for a successful status code.
      */
@@ -37,8 +35,6 @@ public class Result<T> implements Serializable {
      * Constant for a failed status code.
      */
     public static final int FAIL = 500;
-
-    private static final long serialVersionUID = 1L;
     private static final String DEFAULT_SUCCESS_MESSAGE = "Operation succeeded";
     private static final String DEFAULT_FAIL_MESSAGE = "Operation failed";
 

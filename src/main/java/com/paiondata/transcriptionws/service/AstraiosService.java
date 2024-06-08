@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package com.paiondata.transcriptionws.service;
 
-import com.paiondata.transcriptionws.domain.entity.ResponseData;
+import com.paiondata.transcriptionws.common.domain.entity.ResponseData;
 
 import java.io.IOException;
 
@@ -42,11 +42,11 @@ public interface AstraiosService {
      * Attaches transcribed text to a specific case associated with a doctor.
      * <p>
      * Records the provided text under the given doctor and case identifiers.
-
+     *
      * @param doctorId The ID of the doctor linked to the case.
      * @param caseId The ID of the case where the text should be stored.
      * @param transcribedText The text to be uploaded and associated with the case.
-
+     *
      * @return True if the text upload was successful, false otherwise.
      *
      * @throws IOException If an issue occurs during the upload process.

@@ -13,24 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.paiondata.transcriptionws.service;
-
-import java.io.IOException;
+package com.paiondata.transcriptionws.common.constant;
 
 /**
- * AI Transcription Service.
+ * The message constant class.
  */
-public interface AITranscriptionService {
+public class MessageConstant {
+
     /**
-     * Returns the transcription of an specified audio file.
-     * <p>
-     * The format of the audio file must be either .WAV or .MP3
-     *
-     * @param fileBytes  The byte array of the provided audio file contents
-     *
-     * @return the transcribed text of the audio file in one {@code String}
-     *
-     * @throws IOException if the {@code fileBytes} fails to be transcribed
+     * The doctor not found message.
      */
-    String getTranscription(byte[] fileBytes) throws IOException;
+    public static final String DOCTOR_NOT_FOUND = "The doctor id entered is incorrect and the doctor cannot be found";
+    /**
+     * The case not found message.
+     */
+    public static final String CASE_NOT_FOUND = "The case id entered is incorrect and the case cannot be found";
+    /**
+     * The audio file not set message.
+     */
+    public static final String AUDIO_FILE_NOT_FOUND = "The fileId is not set";
 }

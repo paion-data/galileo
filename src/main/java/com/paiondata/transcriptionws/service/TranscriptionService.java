@@ -15,22 +15,19 @@
  */
 package com.paiondata.transcriptionws.service;
 
-import java.io.IOException;
+import com.paiondata.transcriptionws.common.domain.entity.ResponseData;
 
 /**
- * AI Transcription Service.
+ * Service interface for handling transcription operations.
  */
-public interface AITranscriptionService {
+public interface TranscriptionService {
+
     /**
-     * Returns the transcription of an specified audio file.
-     * <p>
-     * The format of the audio file must be either .WAV or .MP3
+     * Extracts the fileId from the response data.
      *
-     * @param fileBytes  The byte array of the provided audio file contents
+     * @param responseData The response data object.
      *
-     * @return the transcribed text of the audio file in one {@code String}
-     *
-     * @throws IOException if the {@code fileBytes} fails to be transcribed
+     * @return The extracted fileId.
      */
-    String getTranscription(byte[] fileBytes) throws IOException;
+    String extractFileId(ResponseData.Root responseData);
 }

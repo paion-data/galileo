@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.paiondata.transcriptionws.domain.entity;
+package com.paiondata.transcriptionws.common.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.paiondata.transcriptionws.common.domain.BaseEntity;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Represents a hierarchical structure containing various nested objects for data retrieval.
  */
-public class ResponseData implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class ResponseData extends BaseEntity {
     /**
      * Root object holding the main data.
      */

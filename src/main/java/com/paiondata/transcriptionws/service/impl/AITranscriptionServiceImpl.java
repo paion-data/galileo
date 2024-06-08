@@ -1,5 +1,5 @@
 /*
- * Copyright Paion Data
+ * Copyright 2024 Paion Data
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,35 +15,43 @@
  */
 package com.paiondata.transcriptionws.service.impl;
 
+import com.paiondata.transcriptionws.config.WebServiceConfig;
 import com.paiondata.transcriptionws.service.AITranscriptionService;
+import com.paiondata.transcriptionws.service.OkHttpClientService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
- * AITranscriptionServiceImpl.
+ * The default implementation of {@link AITranscriptionService}.
  */
 @Service
 public class AITranscriptionServiceImpl implements AITranscriptionService {
-
     private static final int TIME_OUT = 150;
     private static final String DEFAULT_AUDIO_FILENAME = "trans";
     private static final MediaType AUDIO_MEDIA_TYPE = MediaType.parse("audio/*");
-    private static final String URL = "http://localhost:5000/model1";
-    private static final OkHttpClient CLIENT = new OkHttpClient.Builder()
-            .readTimeout(TIME_OUT, TimeUnit.SECONDS)
-            .callTimeout(TIME_OUT, TimeUnit.SECONDS)
-            .build();
+    private static final Logger LOG = LoggerFactory.getLogger(AITranscriptionServiceImpl.class);
+    private final String url;
+
+    @Autowired
+    private OkHttpClientService clientService;
+
+    /**
+     * The constructor.
+     * @param webServiceConfig The configuration of the web service
+     */
+    @Autowired
+    public AITranscriptionServiceImpl(final WebServiceConfig webServiceConfig) {
+        this.url = webServiceConfig.getAITranscriptionServiceUrl();
+    }
 
     /**
      * Returns the transcription of an specified audio file.
@@ -58,19 +66,12 @@ public class AITranscriptionServiceImpl implements AITranscriptionService {
      */
     @Override
     public String getTranscription(final byte[] fileBytes) throws IOException {
-        final RequestBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("audio", DEFAULT_AUDIO_FILENAME, RequestBody.create(AUDIO_MEDIA_TYPE, fileBytes))
-                .build();
-
-        final Request request = new Request.Builder()
-                .url(URL)
-                .post(requestBody)
-                .build();
-
-        try (Response response = CLIENT.newCall(request).execute()) {
+        try (Response response = clientService
+                .getTranscriptionClient(url, DEFAULT_AUDIO_FILENAME, AUDIO_MEDIA_TYPE, fileBytes)) {
             if (!response.isSuccessful()) {
-                throw new IOException("Transcription request failed with status code: " + response.code());
+                final String message = String.format("Failed to create transcription request: %s", response.message());
+                LOG.error(message);
+                throw new IOException(message);
             }
 
             return Objects.requireNonNull(response.body()).string();
