@@ -19,3 +19,10 @@ spring:
     name: Transcription-ws
 server:
   port: 8082
+service:
+  astraios:
+    url: http://localhost:8080/v1/data/doctor
+  minerva:
+    url: http://localhost:8080/v1/file/download?fileId=
+  aiTranscription:
+    url: http://localhost:5000/model1

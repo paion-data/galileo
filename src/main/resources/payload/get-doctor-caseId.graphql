@@ -1,0 +1,25 @@
+query GetDoctorByCaseId
+{
+  doctor(filter: "id=='%s'") {
+    edges {
+      node {
+        id
+        cases(filter: "id=='%s'") {
+          edges {
+            node {
+              id
+              audio {
+                edges {
+                  node {
+                    id
+                    fileId
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

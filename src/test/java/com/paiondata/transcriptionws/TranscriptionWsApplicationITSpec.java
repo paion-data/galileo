@@ -31,7 +31,7 @@ import io.restassured.response.Response;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TranscriptionWsApplicationTests {
+public class TranscriptionWsApplicationITSpec {
 
     @LocalServerPort
     private int port;

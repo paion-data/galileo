@@ -13,25 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.paiondata.transcriptionws.controller;
+package com.paiondata.transcriptionws.service;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.io.IOException;
 
 /**
- * TestController.
+ * AI Transcription Service.
  */
-@RestController
-@RequestMapping
-public class HelloController {
-
+public interface AITranscriptionService {
     /**
-     * sayHello.
-     * @return String.
+     * Returns the transcription of an specified audio file.
+     * <p>
+     * The format of the audio file must be either .WAV or .MP3
+     *
+     * @param fileBytes  The byte array of the provided audio file contents
+     *
+     * @return the transcribed text of the audio file in one {@code String}
+     *
+     * @throws IOException if the {@code fileBytes} fails to be transcribed
      */
-    @GetMapping("/hello")
-    public String sayHello() {
-        return "Hello World!";
-    }
+    String getTranscription(byte[] fileBytes) throws IOException;
 }

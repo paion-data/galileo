@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.paiondata.transcriptionws;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+package com.paiondata.transcriptionws.common.exception;
 
 /**
- * Main class for the Transcription-ws application.
+ * Represents an exception that occurs when requested information is not found.
  */
-@SpringBootApplication
-public class TranscriptionWsApplication {
+public class InformationNotFoundException extends BaseException {
 
     /**
-     * Application entry point.
-     * <p>
-     * Initializes and starts the Spring Boot application, processing any provided command-line arguments.
-     *
-     * @param args The command-line arguments passed when running the application.
+     * Constructs a new InformationNotFoundException with {@code null} as its detail message.
      */
-    public static void main(final String[] args) {
-        SpringApplication.run(TranscriptionWsApplication.class, args);
+    public InformationNotFoundException() {
+    }
+
+    /**
+     * Constructs a new InformationNotFoundException with the specified detail message.
+     *
+     * @param msg The detail message (which is saved for later retrieval by the getMessage() method).
+     */
+    public InformationNotFoundException(final String msg) {
+        super(msg);
     }
 }

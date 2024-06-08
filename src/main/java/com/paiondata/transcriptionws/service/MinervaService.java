@@ -13,25 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.paiondata.transcriptionws;
+package com.paiondata.transcriptionws.service;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.io.IOException;
 
 /**
- * Main class for the Transcription-ws application.
+ * Minerva Service.
  */
-@SpringBootApplication
-public class TranscriptionWsApplication {
-
+public interface MinervaService {
     /**
-     * Application entry point.
+     * Retrieves a file from Minerva based on its unique identifier.
      * <p>
-     * Initializes and starts the Spring Boot application, processing any provided command-line arguments.
+     * Fetches the binary content of a file from the Minerva system using the provided file ID.
      *
-     * @param args The command-line arguments passed when running the application.
+     * @param fileId The unique identifier of the file to be downloaded.
+     *
+     * @return The file content as a byte array.
+     *
+     * @throws IOException If an input/output error occurs during the file retrieval process.
      */
-    public static void main(final String[] args) {
-        SpringApplication.run(TranscriptionWsApplication.class, args);
-    }
+    byte[] downloadFile(String fileId) throws IOException;
 }
